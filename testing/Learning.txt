@@ -1,0 +1,8 @@
+What is CORS?
+
+CORS = Cross-Origin Resource Sharing
+
+It’s about allowing communication between different websites (or apps).
+
+This is a security rule made by browsers:
+"Don't allow websites to make random requests to other servers unless allowed."
