@@ -6,3 +6,120 @@ It’s about allowing communication between different websites (or apps).
 
 This is a security rule made by browsers:
 "Don't allow websites to make random requests to other servers unless allowed."
+
+___________________________________
+
+What is Proxy Settings?
+
+Proxy settings are like giving your internet traffic a middleman.
+Instead of your computer talking directly to a website, it first talks to a proxy server, and the proxy server talks to the website for you.
+
+Here's a simple way to imagine it:
+
+Without proxy:
+➔ You → Website
+
+With proxy:
+➔ You → Proxy Server → Website
+
+___________________________________
+
+What is CRA (Create React App)?
+
+Create React App (CRA) is a tool that helps you quickly set up a new React project 
+without worrying about complicated configurations. 
+It does a lot of the hard work for you, 
+so you can focus on writing your code
+
+___________________________________
+
+Is CORS like providing a proxy?
+
+In CRA, the proxy setting is used during development to help your React frontend talk to a backend server without running into CORS (Cross-Origin Resource Sharing) problems.
+
+
+Example in CRA:
+Imagine:
+
+You run your React app at http://localhost:3000
+
+Your backend server (API) runs at http://localhost:5000
+
+Normally, browsers block requests from 3000 to 5000 because they are different origins.
+Proxy solves that!
+
+In your CRA project, inside package.json, you can add:
+"proxy": "http://localhost:5000"
+
+Now, when your React app tries to call /api/users, CRA will automatically send it through the proxy to http://localhost:5000/api/users behind the scenes!
+
+You don't need to manually change URLs — it just works nicely.
+
+
+In simple words:
+CRA proxy setting is like telling React,
+"If you need data, just ask me, and I'll secretly go get it from the backend for you."
+
+___________________________________
+
+Setting up Proxy in Vite
+
+In Vite, you need to manually configure the proxy inside vite.config.js
+
+export default defineConfig({
+  plugins: [react()],
+
+  server: {
+    proxy: {
+      "/analyze": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
+})
+
+Any request from your React app that starts with /analyze will be proxied to your Flask backend at http://localhost:5000.
+For example, if you do axios.post('/analyze') in React, Vite will automatically forward that request to http://localhost:5000/api/analyze.
+
+___________________________________
+
+
+What happens in practice?
+
+React app (frontend): Sends a request to /api/analyze.
+Vite: Proxies this request to http://localhost:5000/api/analyze.
+Flask backend: Handles the request and sends a response back.
+React: Receives the response and updates the UI.
+
+So, in summary:
+During development, Vite's proxy helps you avoid dealing with CORS.
+
+For production, ensure CORS is correctly set up on the Flask backend.
+
+___________________________________
+
+
+Why should you use a virtual environment?
+
+highly recommended especially as your project grows or when collaborating with others
+
+1. Without venv	With venv:
+All Python packages install globally
+Risk of version conflicts (Flask version, etc.) between projects	
+Hard to track required packages	
+
+
+2. With venv:
+All Python packages install globally	
+Each project can have its own independent package versions
+Easy to generate requirements.txt (list of packages)
+
+
+cd your-backend-folder
+python -m venv venv
+venv\Scripts\activate
+pip install flask flask-cors
+pip freeze > requirements.txt
+
