@@ -2,16 +2,19 @@ import { useState } from 'react'
 import './App.css'
 import axios from 'axios';
 
+import FileUploader from './components/FileUploader';
+import RequestDisplay from './components/RequestDisplay';
+import RequestInput from './components/RequestInput';
+
 function App() {
-  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(" ");
   const [error, setError] = useState(null);
+  const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
-    // event.target- <input type="file" /> element
-    setFile(event.target.files[0]);
-  }
+       setFile(event.target.files[0]);
+  };
 
   // handle file upload, if sending (disable button clicking)
   const handleSubmit = async () => {
@@ -57,26 +60,8 @@ function App() {
         handleSubmit();
       }}>
         
-        <input type="file" name="file" accept='.csv' onChange={handleFileChange}/>
-      
-
-      {/* Gemini-style input form */}
-    <div className="gemini-input-container">
-      <textarea
-        name= "request"
-        placeholder="Ask me anything about your dataset..."
-        rows="3"
-        style={{
-          width: "100%",
-          padding: "10px",
-          borderRadius: "8px",
-          border: "1px solid #ccc",
-          fontSize: "16px",
-          resize: "none",
-
-        }}
-      ></textarea>
-    </div>
+      <FileUploader onChange={handleFileChange}/>
+      <RequestInput/>
 
       {/* disable- while loading, button is disabled */}
       <button type="submit" disabled= {loading}> {loading ? "Analyzing the file..." : "Analyze Dataset"}</button>
@@ -84,14 +69,7 @@ function App() {
 
       {file && <p>Selected file: {file.name}</p>}
 
-      {/* x && y, if x is true then y */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {result && (
-        <div style={{ whiteSpace: "pre-wrap", marginTop: "2rem" }}>
-          <h3>📊 AI Response</h3>
-          <p>{result}</p>
-        </div>
-        )}
+      <RequestDisplay result={result} error={error} />
     </>
   )
 }

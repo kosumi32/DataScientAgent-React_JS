@@ -123,3 +123,15 @@ venv\Scripts\activate
 pip install flask flask-cors
 pip freeze > requirements.txt
 
+___________________________________
+
+Best Practice for State Management in Components
+
+
+1. For the state, it is recommended to put in the main file when multiple components need access to the same state
+2. Acceptable to put it in component ONLY IF, Acceptable only if:
+
+The file is used exclusively within FileUploader, and
+
+No other components need to know about it.
+
