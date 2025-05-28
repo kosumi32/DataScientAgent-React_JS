@@ -1,2 +1,9 @@
 27-April 2025
 Trying to implement the function to API calls and display the outputs
+
+28-April 2025
+Conneected the React fronteend with the Flask backend and is able to produce results
+
+29-April 2025
+Refactored the code a bit
+Trying to make the output better and display graph plots if possiblee

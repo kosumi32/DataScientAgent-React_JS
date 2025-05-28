@@ -3,14 +3,16 @@ import './App.css'
 import axios from 'axios';
 
 import FileUploader from './components/FileUploader';
-import RequestDisplay from './components/RequestDisplay';
+import DisplayResult from './components/DisplayResult';
 import RequestInput from './components/RequestInput';
+import DisplayPlot from './components/DisplayPlot';
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(" ");
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
+  const [plot, setPlot] = useState(null);
 
   const handleFileChange = (event) => {
        setFile(event.target.files[0]);
@@ -43,9 +45,11 @@ function App() {
 
       // result from the server
       setResult(respond.data.response);
+      setPlot(respond.data.plot);
+      setError(null);
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Error uploading file");
+      alert("Falsed to analyze dataset.");
     } finally {
       setLoading(false);
     }
@@ -69,7 +73,8 @@ function App() {
 
       {file && <p>Selected file: {file.name}</p>}
 
-      <RequestDisplay result={result} error={error} />
+      <DisplayResult result={result} error={error} />
+      <DisplayPlot plot={plot} error={error} />
     </>
   )
 }

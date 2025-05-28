@@ -1,9 +1,10 @@
-function RequestDisplay({result, error}) {
+function DisplayResult({result, error}) {
     return (
         <>
             {/* x && y, if x is true then y */}
-            {error && <p style={{ color: "red" }}>
-                {error}</p>}
+            {error && <p style={{ color: "red" }}> 
+                {error}
+                </p>}
 
             {result && (
             <div style={{ whiteSpace: "pre-wrap", marginTop: "2rem" }}>
@@ -16,4 +17,4 @@ function RequestDisplay({result, error}) {
     )
 }
 
-export default RequestDisplay;
+export default DisplayResult;
